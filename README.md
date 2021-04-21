@@ -3,10 +3,10 @@
 A simplified lightweight Python module for using Mycroft Precise. 
 
 ## Usage:
-
+```
 sudo apt-get install portaudio19-dev
 pip install .
-
+```
 On the first run, if no engine path or model path arguments are specified, it will automatically download the engine and use default model, supplied with the package.
 
 Finally, you can create a program as follows, passing in the location of
