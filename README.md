@@ -1,30 +1,26 @@
 # Precise Wrapper
 
-A simple to use, lightweight Python module for using Mycroft Precise.
+A simplified lightweight Python module for using Mycroft Precise. 
 
 ## Usage:
 
-First, download the precise binary from [the precise-data repo][precise-data].
-Next, extract the tar to the folder of your choice. The following commands will
-work for a desktop:
+sudo apt-get install portaudio19-dev
+pip install .
 
-[precise-data]: https://github.com/mycroftai/precise-data/tree/dist
-
-```bash
-ARCH=x86_64
-VERSION=0.3.0
-wget https://github.com/MycroftAI/mycroft-precise/releases/download/$VERSION/precise-all_${VERSION}_${ARCH}.tar.gz
-tar xvf precise-engine.tar.gz
-```
+On the first run, if no engine path or model path arguments are specified, it will automatically download the engine and use default model, supplied with the package.
 
 Finally, you can create a program as follows, passing in the location of
 the executable as the first argument:
 
 ```python
-#!/usr/bin/env python3
-
 from precise_runner import PreciseEngine, PreciseRunner
 
-engine = PreciseEngine('precise-engine/precise-engine', 'my_model_file.pb')
-runner = PreciseRunner(engine, on_activation=lambda: print('hello'))
+engine = PreciseEngine()
+runner = PreciseRunner(engine, on_activation=lambda: print('Hello Seeed!'))
+runner.start()
+
+# Sleep forever
+from time import sleep
+while True:
+    sleep(10)
 ```
