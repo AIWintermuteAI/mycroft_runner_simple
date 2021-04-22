@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Copyright 2019 Mycroft AI Inc.
-#
+# Modified 2021 Seeed Studio STU, Dmitry Maslov
+
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -12,8 +13,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+from os import path
 from setuptools import setup, find_packages
 from precise_runner import __version__
+
+this_directory = path.abspath(path.dirname(__file__))
+
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
 
 setup(
     name='precise-runner',
@@ -27,6 +38,8 @@ setup(
     author='Matthew Scholefield',
     author_email='matthew.scholefield@mycroft.ai',
     description='Simplified Wrapper to use Mycroft Precise Wake Word Listener',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     keywords='wakeword keyword wake word listener sound',
     url='http://github.com/MycroftAI/mycroft-precise',
 
@@ -54,9 +67,5 @@ setup(
             'mycroft-precise=precise_runner.scripts.mycroft_precise:main',
         ]
     },
-    install_requires=[
-        'numpy==1.16',
-        'pyaudio',
-        'prettyparse>=1.1.0',
-    ]
+    install_requires=requirements
 )
