@@ -1,1 +1,2 @@
 recursive-include precise_runner/models *
+recursive-include precise_runner/data *

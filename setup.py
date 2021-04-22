@@ -18,11 +18,13 @@ from precise_runner import __version__
 setup(
     name='precise-runner',
     version=__version__,
-    packages=find_packages(),
-    install_requires=['pyaudio'],
+    packages=[
+        'precise_runner',
+        'precise_runner.scripts'
+    ],
     include_package_data=True,
 
-    author='Matthew Scholefield&Dmitry Maslov',
+    author='Matthew Scholefield',
     author_email='matthew.scholefield@mycroft.ai',
     description='Simplified Wrapper to use Mycroft Precise Wake Word Listener',
     keywords='wakeword keyword wake word listener sound',
@@ -47,4 +49,14 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',                
     ],
+    entry_points={
+        'console_scripts': [
+            'mycroft-precise=precise_runner.scripts.mycroft_precise:main',
+        ]
+    },
+    install_requires=[
+        'numpy==1.16',
+        'pyaudio',
+        'prettyparse>=1.1.0',
+    ]
 )

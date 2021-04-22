@@ -10,7 +10,7 @@ pip install .
 On the first run, if no engine path or model path arguments are specified, it will automatically download the engine and use default model, supplied with the package.
 
 Finally, you can create a program as follows, passing in the location of
-the executable as the first argument:
+the executable as the first argument, or leaving them empty if you want to use the default engine and default model (responds to "hey-mycrfot", speak clearly and with clean accent):
 
 ```python
 from precise_runner import PreciseEngine, PreciseRunner

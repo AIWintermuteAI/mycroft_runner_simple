@@ -1,6 +1,6 @@
 # Python 3
 # Copyright 2019 Mycroft AI Inc.
-# Modified 2021 Seeed Studio
+# Modified 2021 Seeed Studio STU, Dmitry Maslov
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,28 +13,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+import os
 import atexit
 import time
+import sys 
 from subprocess import PIPE, Popen
 from threading import Thread, Event
 
-import urllib.request
-import os
-import tarfile
+from precise_runner.util import get_binary, engine_path, default_model_path
 
-engine_path = os.path.join(os.path.expanduser("~"), '.local', 'share', 'mycroft-precise')
-engine_url = "https://github.com/MycroftAI/mycroft-precise/releases/download/v0.2.0/precise-engine_0.2.0_"
-default_model_path = os.path.join("..", os.path.dirname(__file__), 'models', 'hey-mycroft_original.pb')
-
-def get_binary(arch_name):
-
-    url = engine_url + arch_name + ".tar.gz"
-    
-    file_tmp = urllib.request.urlretrieve(url, filename=None)[0]
-
-    tar = tarfile.open(file_tmp)
-    tar.extractall(engine_path)
-    
 class Engine(object):
     def __init__(self, chunk_size=2048):
         self.chunk_size = chunk_size
@@ -64,15 +52,20 @@ class PreciseEngine(Engine):
     def __init__(self, exe_file = None, model_file = None, chunk_size=2048):
         Engine.__init__(self, chunk_size)
         
-        if not exe_file:      
+        if not exe_file:   
+            print('Engine is not specified, using default engine binary at {}'.format(engine_path))   
             if not os.path.exists(engine_path):
-                get_binary(os.uname()[4])
-                
-        exe_file = os.path.join(engine_path, 'precise-engine', 'precise-engine')
-        print(exe_file)
+                get_binary(os.uname()[4])     
+            exe_file = os.path.join(engine_path, 'precise-engine', 'precise-engine')
+            
         if not model_file:
-            model_file = default_model_path
-        print(model_file)       
+            print("Keyword model is not specified, using default 'hey-mycroft' model at {}".format(default_model_path))  
+            model_file = default_model_path  
+
+        if not os.path.exists(model_file):
+            print("Model specified is not found at {}. Aborting.".format(model_file))  
+            sys.exit()
+          
         self.exe_args = exe_file if isinstance(exe_file, list) else [exe_file]
         self.exe_args += [model_file, str(self.chunk_size)]
         self.proc = None
