@@ -2,6 +2,15 @@
 
 A lightweight Python module for using Mycroft Precise. The main difference of this fork is simplified installation procedure.
 
+#### Supported platforms:
+Linux
+
+#### Supported architectures:
+
+x86_64
+armv7l
+aarch64
+
 ## Installation
 
 ```

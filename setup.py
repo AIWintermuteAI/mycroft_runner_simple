@@ -27,7 +27,7 @@ with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
 setup(
-    name='precise-runner',
+    name='precise-runner-simple',
     version=__version__,
     packages=[
         'precise_runner',
